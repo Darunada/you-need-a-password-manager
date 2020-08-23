@@ -85,20 +85,3 @@ jobs:
         run: npm run ci:test:e2e:record
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-  end:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Build Success!"
-        if: success()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: "Build failed :-("
-        if: failure()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
