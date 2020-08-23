@@ -42,9 +42,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Using Node.js..."
-          uses: actions/setup-node@v1
-          with:
-            node-version: '12.x'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
 
       - name: "Installing dependencies..."
         run: npm ci
