@@ -12,19 +12,6 @@ jobs:
           state: 'pending'
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-    - if: success()
-      uses: 'deliverybot/status@master'
-      with:
-        state: 'success'
-        token: '${{ secrets.GITHUB_TOKEN }}'
-
-    - if: failure()
-      uses: 'deliverybot/status@master'
-      with:
-        state: 'failure'
-        token: '${{ secrets.GITHUB_TOKEN }}'
-
-
   install:
     name: "Installing application"
     runs-on: ubuntu-latest
@@ -113,13 +100,15 @@ jobs:
   end:
     runs-on: ubuntu-latest
     steps:
-      - if: success()
+      - name: "Build Success!"
+        if: success()
         uses: 'deliverybot/status@master'
         with:
           state: 'success'
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - if: failure()
+      - name: "Build failed :-("
+        if: failure()
         uses: 'deliverybot/status@master'
         with:
           state: 'failure'
