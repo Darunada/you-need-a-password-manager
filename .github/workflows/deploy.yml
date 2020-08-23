@@ -2,8 +2,8 @@ name: Deploy
 
 on:
   push #:
-   # branches:
-   # - master
+  # branches:
+# - master
 
 jobs:
   install:
@@ -44,6 +44,9 @@ jobs:
         with:
           node-version: '12.x'
 
+      - name: "Checking out code..."
+        uses: actions/checkout@v2
+
       - name: "Installing dependencies..."
         run: npm ci
 
@@ -65,6 +68,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
+      - name: "Checking out code..."
+        uses: actions/checkout@v2
 
       - name: "Installing dependencies..."
         run: npm ci
