@@ -15,12 +15,6 @@ jobs:
         with:
           node-version: '12.x'
 
-      - name: "Checking out code..."
-        uses: actions/checkout@v2
-
-      - name: "Installing dependencies..."
-        run: npm ci
-
       - name: "Caching node modules..."
         uses: actions/cache@v2
         env:
@@ -33,6 +27,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
+      - name: "Checking out code..."
+        uses: actions/checkout@v2
+
+      - name: "Installing dependencies..."
+        run: npm ci
 
   test:
     name: "Running tests..."
@@ -58,9 +58,11 @@ jobs:
 
       - name: "Running E2E tests..."
         run: npm run ci:test:e2e:record
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
   deploy:
-    needs: install
+    needs: [install, test]
     name: "Deploying to production...."
     runs-on: ubuntu-latest
     steps:
