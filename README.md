@@ -32,3 +32,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Lea's Notes
+https://nickymeuleman.netlify.app/blog/gui-on-wsl2-cypress
