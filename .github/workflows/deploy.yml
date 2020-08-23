@@ -57,7 +57,7 @@ jobs:
         run: npm run ci:test:e2e:record
 
   deploy:
-    needs: build
+    needs: install
     name: "Deploying to production...."
     runs-on: ubuntu-latest
     steps:
