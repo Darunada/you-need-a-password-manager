@@ -60,11 +60,6 @@ jobs:
       - name: "Running unit tests..."
         run: npm run ci:test:unit
 
-      - name: "Running E2E tests..."
-        run: npm run ci:test:e2e:record
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
   test-e2e:
     name: "Running E2E tests..."
     needs: install
@@ -85,20 +80,3 @@ jobs:
         run: npm run ci:test:e2e:record
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-  end:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Build Success!"
-        if: success()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: "Build failed :-("
-        if: failure()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
