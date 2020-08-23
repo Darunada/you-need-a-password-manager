@@ -1,4 +1,4 @@
-name: Pull Request
+name: Check
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
 
   install:
-    name: "Installing application"
+    name: "Installing..."
     runs-on: ubuntu-latest
     steps:
       - name: "Using Node.js..."
@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
   test-unit:
-    name: "Running Unit tests..."
+    name: "Unit tests"
     needs: install
     runs-on: ubuntu-latest
     steps:
@@ -60,13 +60,8 @@ jobs:
       - name: "Running unit tests..."
         run: npm run ci:test:unit
 
-      - name: "Running E2E tests..."
-        run: npm run ci:test:e2e:record
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
   test-e2e:
-    name: "Running E2E tests..."
+    name: "E2E tests"
     needs: install
     runs-on: ubuntu-latest
     steps:

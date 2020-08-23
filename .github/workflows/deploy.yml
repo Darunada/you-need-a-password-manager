@@ -32,8 +32,8 @@ jobs:
       - name: "Installing dependencies..."
         run: npm ci
 
-  test:
-    name: "Running tests..."
+  test-unit:
+    name: "Unit tests"
     needs: install
     runs-on: ubuntu-latest
     steps:
@@ -54,14 +54,30 @@ jobs:
       - name: "Running unit tests..."
         run: npm run ci:test:unit
 
+  test-e2e:
+    name: "E2E tests"
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Using Node.js..."
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: "Checking out code..."
+        uses: actions/checkout@v2
+
+      - name: "Installing dependencies..."
+        run: npm ci
+
       - name: "Running E2E tests..."
         run: npm run ci:test:e2e:record
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
   deploy:
-    needs: [install, test]
     name: "Deploying to production...."
+    needs: [test-unit, test-e2e]
     runs-on: ubuntu-latest
     steps:
       - name: "Using Node.js..."
@@ -78,13 +94,7 @@ jobs:
       - name: "Building for production..."
         run: npm run ci:build:production
 
-      - name: "Starting deployment..."
-        uses: 'deliverybot/status@v1'
-        with:
-          state: 'pending'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: "Deploying to bucket: ${{ secrets.AWS_S3_BUCKET }}..."
+      - name: "Deploying to bucket..."
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -94,18 +104,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: 'dist'
-
-
-      - name: "Deployment Succeeded!"
-        if: success()
-        uses: 'deliverybot/status@v1'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: "Deployment failed :-("
-        if: failure()
-        uses: 'deliverybot/status@v1'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
