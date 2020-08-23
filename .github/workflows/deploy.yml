@@ -3,14 +3,6 @@ name: Deploy
 on: ['deployment', 'workflow_dispatch']
 
 jobs:
-  start:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Starting build..."
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'pending'
-          token: '${{ secrets.GITHUB_TOKEN }}'
 
   install:
     name: "Installing application"
@@ -86,6 +78,12 @@ jobs:
       - name: "Building for production..."
         run: npm run ci:build:production
 
+      - name: "Starting deployment..."
+        uses: 'deliverybot/status@v1'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
       - name: "Deploying to bucket: ${{ secrets.AWS_S3_BUCKET }}..."
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -97,19 +95,16 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: 'dist'
 
-  end:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Build Success!"
+      - name: "Deployment Succeeded!"
         if: success()
-        uses: 'deliverybot/status@master'
+        uses: 'deliverybot/status@v1'
         with:
           state: 'success'
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - name: "Build failed :-("
+      - name: "Deployment failed :-("
         if: failure()
-        uses: 'deliverybot/status@master'
+        uses: 'deliverybot/status@v1'
         with:
           state: 'failure'
           token: '${{ secrets.GITHUB_TOKEN }}'

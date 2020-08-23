@@ -9,14 +9,6 @@ on:
         - master
 
 jobs:
-  start:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Starting build..."
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'pending'
-          token: '${{ secrets.GITHUB_TOKEN }}'
 
   install:
     name: "Installing application"
