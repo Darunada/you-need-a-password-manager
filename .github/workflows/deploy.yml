@@ -1,11 +1,30 @@
 name: Deploy
 
-on:
-  push #:
-  # branches:
-# - master
+on: ['deployment', 'workflow_dispatch']
 
 jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Starting build..."
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+    - if: success()
+      uses: 'deliverybot/status@master'
+      with:
+        state: 'success'
+        token: '${{ secrets.GITHUB_TOKEN }}'
+
+    - if: failure()
+      uses: 'deliverybot/status@master'
+      with:
+        state: 'failure'
+        token: '${{ secrets.GITHUB_TOKEN }}'
+
+
   install:
     name: "Installing application"
     runs-on: ubuntu-latest
@@ -90,3 +109,18 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: 'dist'
+
+  end:
+    runs-on: ubuntu-latest
+    steps:
+      - if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
