@@ -1,5 +1,7 @@
 # YouNeedAPasswordManager.com
 
+![Check](https://github.com/Darunada/you-need-a-password-manager/workflows/Check/badge.svg)
+
 ## Project setup
 ```
 npm install
