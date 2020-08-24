@@ -13,7 +13,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e --headless",
     "lint": "vue-cli-service lint",
-    "cy:open": "cypress open"
+    "cy:open": "vue-cli-service test:e2e"
   },
   "dependencies": {
     "core-js": "^3.6.5",

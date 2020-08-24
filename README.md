@@ -2,38 +2,45 @@
 
 ![Check](https://github.com/Darunada/you-need-a-password-manager/workflows/Check/badge.svg)
 
-## Project setup
+Description
+--------------------------------------
+Just for fun.  Do you need a password manager?  YES! already.
+
+I am making this project to learn and play around with Vue.
+
+
+Installation
+--------------------------------------
+This site is built in Vue.  Is this your first time?  It is mine @_@
+
+- You have node installed, preferably via `nvm`
+- Build and install the program with 
+
 ```
-npm install
+$ npm ci
+  ... builds in a few minutes ...
+$ npm run serve
 ```
 
-### Compiles and hot-reloads for development
+Usage
+--------------------------------------
+
+This application has tests.  You can run tests with the following commands:
+
 ```
-npm run serve
+npm run test:unit
+npm run test:e2e
+npm run lint
 ```
 
-### Compiles and minifies for production
+Compiles a production build with:
+
 ```
 npm run build
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
+Roadmap
+--------------------------------------
+My plan is to have an entry for a user's email to check against the HaveIBeenPwned api.  No matter the response, it will say yes, and provide an alert if applicable.
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Lea's Notes
-https://nickymeuleman.netlify.app/blog/gui-on-wsl2-cypress
+I will host the API request in a Cloudflare Worker if I can swing it.
